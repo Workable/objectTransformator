@@ -2,6 +2,18 @@ import camelCase from "lodash/camelCase";
 import snakeCase from "lodash/snakeCase";
 import identity from "lodash/identity";
 
+/**
+ * @description The pure transformator function.
+ * @param options.func The function that applies nested objects.
+ * @param options.action The function that applies on the attribute transformation.
+ * @param options.shallow if true, it transforms only the first level of the object.
+ * @param options.omit Excludes specific keys from the transformation.
+ * @example
+ * underscoredKeys({ attr_v1: "val1", attrs: { attr_v2: "val2" } });
+ *
+ * // { attrV1: "val1", attrs: { attrV2: "val2" } }
+ */
+
 const transformator = (
   data,
   { func = identity, action = identity, shallow = false, omit = [] } = {}
@@ -29,6 +41,14 @@ export const camelizeKey = (target, key, value) => ({
   [camelCase(key)]: value
 });
 
+/**
+ * @description Transforms all the object keys to camelCase.
+ * @example
+ * underscoredKeys({ attr_v1: "val1", attrs: { attr_v2: "val2" } });
+ *
+ * // { attrV1: "val1", attrs: { attrV2: "val2" } }
+ */
+
 export const camelizeKeys = (data, { shallow = false, omit = [] } = {}) =>
   transformator(data, {
     shallow,
@@ -42,6 +62,17 @@ export const underscoredKey = (target, key, value) => ({
   [snakeCase(key)]: value
 });
 
+/**
+ * @description Transforms all the object keys to underscored case.
+ * @example
+ * underscoredKeys(
+ *   { attrV1: "val1", attrs: { attrV2: "val2" } },
+ *   { shallow: true }
+ * );
+ *
+ * // {attr_v1: 'val1', attrs: {attrV2: 'val2'}}
+ */
+
 export const underscoredKeys = (data, { shallow = false, omit = [] } = {}) =>
   transformator(data, {
     shallow,
@@ -49,6 +80,21 @@ export const underscoredKeys = (data, { shallow = false, omit = [] } = {}) =>
     action: underscoredKey,
     omit
   });
+
+/**
+ * @description Creates a chain of transformators.
+ * @example
+ * const prefixAction =  (target, key, value) => ({ ...target, ['v1_' + key]: value })
+ *
+ * const payloadTransformator = data =>
+ *   transformKeys(data, {
+ *     func: payloadTransformator,
+ *     action: compose(
+ *       camelizeKey,
+ *       prefixAction
+ *     )
+ *   });
+ */
 
 export const compose = (...transformators) => {
   return (target, key, value, data) =>
