@@ -7,7 +7,9 @@ Transforms a javascript object from one shape to another.
 
 Using npm:
 
+```
 \$ npm install @workablehr/objectTransformator
+```
 
 ## Basic usage
 
