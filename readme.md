@@ -8,13 +8,13 @@ Transforms a javascript object from one shape to another.
 Using npm:
 
 ```
-\$ npm install @workablehr/objectTransformator
+\$ npm install @workablehr/object-transformator
 ```
 
 ## Basic usage
 
 ```javascript
-import { underscoredKeys } from "@workablehr/objectTransformator";
+import { underscoredKeys } from "@workablehr/object-transformator";
 
 underscoredKeys({ attrV1: "val1", attrs: { attrV2: "val2" } });
 // {attr_v1: 'val1', attrs: {attr_v2: 'val2'}}
@@ -30,7 +30,7 @@ Transforms all the object keys to camel case.
 - omit, excludes specific keys from the transformation.
 
 ```javascript
-import { camelizeKeys } from "@workablehr/objectTransformator";
+import { camelizeKeys } from "@workablehr/object-transformator";
 
 camelizeKeys({ attr_v1: "val1", attrs: { attr_v2: "val2" } });
 // { attrV1: "val1", attrs: { attrV2: "val2" } }
@@ -44,7 +44,7 @@ Transforms all the object keys to underscored case.
 - omit, excludes specific keys from the transformation.
 
 ```javascript
-import { underscoredKeys } from "@workablehr/objectTransformator";
+import { underscoredKeys } from "@workablehr/object-transformator";
 
 underscoredKeys(
   { attrV1: "val1", attrs: { attrV2: "val2" } },
@@ -58,7 +58,7 @@ underscoredKeys(
 The pure transformator function.
 
 ```javascript
-import transformKeys from "@workablehr/objectTransformator";
+import transformKeys from "@workablehr/object-transformator";
 
 const prefixKeys = (data, prefix, { shallow = false, omit = [] } = {}) =>
   transformKeys(data, {
@@ -77,7 +77,7 @@ prefixKeys({ attr1: "val1", attrs: { attr2: "val2" } }, "v1_");
 Creates a chain of transformators.
 
 ```javascript
-import transformKeys, {compose} from "@workablehr/objectTransformator";
+import transformKeys, {compose} from "@workablehr/object-transformator";
 
 const prefixAction =  (target, key, value) => ({ ...target, ['v1_' + key]: value })
 const payloadTransformator = data =>
